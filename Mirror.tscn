@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://kvplei6wnbwv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fpmpj"]
+cull_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_u0di2"]
+material = SubResource("StandardMaterial3D_fpmpj")
+
+[node name="Mirror" type="Node3D"]
+
+[node name="MirrorMesh" type="CSGMesh3D" parent="."]
+use_collision = true
+mesh = SubResource("QuadMesh_u0di2")

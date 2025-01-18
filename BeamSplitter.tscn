@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://csw65i4qmxtox"]
+
+[ext_resource type="Shader" path="res://Refraction.gdshader" id="2_mcmbp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mp2fx"]
+render_priority = 0
+shader = ExtResource("2_mcmbp")
+shader_parameter/albedo = Color(0.416, 0.069, 0.103, 0.162)
+shader_parameter/specular = null
+shader_parameter/offset = 0.02
+shader_parameter/opacity = 0.99
+
+[sub_resource type="QuadMesh" id="QuadMesh_nlltq"]
+material = SubResource("ShaderMaterial_mp2fx")
+
+[node name="BeamSplitter" type="Node3D"]
+
+[node name="BeamSplitter2" type="CSGMesh3D" parent="."]
+transform = Transform3D(0.989949, 0, 0.989949, 0, 1, 0, -0.989949, 0, 0.989949, 0, 0, 0)
+use_collision = true
+mesh = SubResource("QuadMesh_nlltq")
+
+[node name="BeamSplitter" type="CSGMesh3D" parent="."]
+transform = Transform3D(-0.990181, 0, -0.990181, 0, 1, 0, 0.990181, 0, -0.990181, 0, 0, 0)
+use_collision = true
+mesh = SubResource("QuadMesh_nlltq")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpr7eiod7ajgv"]
+
+[ext_resource type="Script" path="res://laser.gd" id="1_tr6qr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pg1rn"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ndfdj"]
+_surfaces = [{
+"aabb": AABB(-8.23294, -3.16354, -8.41667, 16.1923, 12.3508, 16.2561),
+"format": 34359738369,
+"primitive": 1,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 5,
+"vertex_data": PackedByteArray(188, 30, 236, 64, 24, 255, 18, 65, 60, 72, 200, 64, 8, 244, 255, 191, 8, 103, 206, 191, 224, 220, 250, 64, 80, 179, 254, 64, 100, 119, 74, 192, 177, 170, 6, 193, 233, 130, 223, 192, 184, 201, 143, 191, 64, 161, 163, 190, 30, 186, 3, 193, 168, 24, 67, 64, 103, 217, 194, 192)
+}]
+
+[node name="Laser" type="Node3D"]
+script = ExtResource("1_tr6qr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_pg1rn")
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("ArrayMesh_ndfdj")

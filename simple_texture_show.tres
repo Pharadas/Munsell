@@ -1,0 +1,39 @@
+[gd_resource type="VisualShader" load_steps=4 format=3 uid="uid://bmohr08tdndt3"]
+
+[ext_resource type="Texture2D" uid="uid://nc7xbw5xl8yh" path="res://New Piskel.png" id="1_dgtk2"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_62hky"]
+output_port_for_preview = 0
+texture = ExtResource("1_dgtk2")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_5t10v"]
+input_name = "uv2"
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D tex_frg_2;
+
+
+
+void fragment() {
+// Input:3
+	vec2 n_out3p0 = UV2;
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, n_out3p0);
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+
+
+}
+"
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_62hky")
+nodes/fragment/2/position = Vector2(20, 220)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_5t10v")
+nodes/fragment/3/position = Vector2(-380, 360)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 2, 0)

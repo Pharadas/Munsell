@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1nb4u5rbhv0w"]
+
+[ext_resource type="Shader" path="res://Interference.gdshader" id="1_enw6k"]
+[ext_resource type="Script" path="res://simulation_wall.gd" id="1_g85mi"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_kx1iw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s1myc"]
+render_priority = 0
+shader = ExtResource("1_enw6k")
+shader_parameter/vertex_positions = PackedVector3Array(-2.65985, -48.7993, -53.7544, -2.65985, -48.7993, 46.2456, -2.65985, 51.2007, -53.7544, -2.65985, 51.2007, 46.2456)
+shader_parameter/light_positions = PackedVector3Array(-2.65985, 1.17928, -3.72925, -2.65985, 1.17928, -3.72925)
+shader_parameter/light_distances = PackedFloat32Array(20.825, 13.7107)
+shader_parameter/num_of_light_sources = 2
+
+[node name="SimulationWallOuter" type="Node3D"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+script = ExtResource("1_g85mi")
+
+[node name="SimulationWall" type="CSGMesh3D" parent="."]
+use_collision = true
+mesh = SubResource("QuadMesh_kx1iw")
+material = SubResource("ShaderMaterial_s1myc")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.5, -0.5, 0)
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.5, -0.5, 0)
+
+[node name="CSGSphere3D3" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.5, 0.5, 0)
+
+[node name="CSGSphere3D4" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.5, 0.5, 0)

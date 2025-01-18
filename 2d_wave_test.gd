@@ -4,8 +4,9 @@ var rng = RandomNumberGenerator.new()
 
 var u = []
 var u_prev = []
+var r = []
 
-var num_spaces: Vector2i = Vector2i(100, 100)
+var num_spaces: Vector2i = Vector2i(200, 200)
 var viewport_size: Vector2i
 var size_space: Vector2i
 
@@ -32,16 +33,28 @@ func _draw():
 	# var laplacian_kernel = [[0.066, 0.066, 0.066], [0.066, -1.0, 0.066], [0.066, 0.066, 0.066]]
 	# var laplacian = convolution2d(u, num_spaces, laplacian_kernel)
 
-	if rng.randi_range(0, 10) == 0:
-		print("doin it")
-		u[rng.randi_range(1, 99)][rng.randi_range(1, 99)] = 120
+	for y in num_spaces.y:
+		for x in num_spaces.x:
+			draw_rect(Rect2(x * size_space.x, y * size_space.y, size_space.x, size_space.y), Color(r[y][x], -r[y][x], 0), true)
 
-	var r = u
+	if rng.randi_range(0, 20) == 0:
+		print("doin it")
+		var x = rng.randi_range(5, 195)
+		var y = rng.randi_range(5, 195)
+
+		r[y][x] = 10
+
+		# for i in range(-2, 2):
+		# 	for j in range(-2, 2):
+		# 		r[y + i][x + j] = 10
+
+	u_prev = u.duplicate()
+	u = r.duplicate()
 
 	for i in range(1, num_spaces.y - 1):
 		for j in range(1, num_spaces.x - 1):
-			r[i][j] = 0.25 * (u[i][j - 1] + u[i][j + 1] + u[i - 1][j] + u[i + 1][j] - 4 * u[i][j])
-			r[i][j] += 2 * (u_prev[i][j] - u[i][j])
+			r[i][j] = 0.25 * (u[i][j - 1] + u[i][j + 1] + u[i - 1][j] + u[i + 1][j] - (4 * u[i][j]))
+			r[i][j] += 2 * (u[i][j] - u_prev[i][j])
 
 	# var v = []
 
@@ -57,16 +70,12 @@ func _draw():
 	# 	for x in num_spaces.x:
 	# 		r[y].append(u[y][x] + v[y][x] + laplacian[y][x])
 
-	u_prev = u
-	u = r
-
 	for i in range(1, num_spaces.y - 1):
 		for j in range(1, num_spaces.x - 1):
-			u[i][j] *= 0.98
+			r[i][j] *= 0.995
 
-	for y in num_spaces.y:
-		for x in num_spaces.x:
-			draw_rect(Rect2(x * size_space.x, y * size_space.y, size_space.x, size_space.y), Color(r[y][x], -r[y][x], 0), true)
+	# u_prev = u.duplicate()
+	# u = r.duplicate()
 
 func zeros(x, y):
 	var n = []
@@ -120,11 +129,9 @@ func _ready() -> void:
 	viewport_size = get_tree().get_root().get_viewport().get_size()
 	size_space = viewport_size / num_spaces
 
+	r = zeros(num_spaces.x, num_spaces.y)
 	u = zeros(num_spaces.x, num_spaces.y)
 	u_prev = zeros(num_spaces.x, num_spaces.y)
-
-
-	u[50][50] = 120
 
 func _process(delta: float) -> void:
 	queue_redraw()

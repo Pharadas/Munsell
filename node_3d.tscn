@@ -1,0 +1,83 @@
+[gd_scene load_steps=13 format=3 uid="uid://c3v8u8vhbbcic"]
+
+[ext_resource type="Script" path="res://shader_correction.gd" id="1_le3yq"]
+[ext_resource type="Texture2D" uid="uid://d4nnsyukv4lq5" path="res://last_blocke.png" id="2_7no2k"]
+[ext_resource type="Shader" path="res://fraunhoffer_diffraction.gdshader" id="2_gme0s"]
+[ext_resource type="Texture2D" uid="uid://bq07rhcdd1e3y" path="res://double_slit.png" id="2_t4uwq"]
+[ext_resource type="Shader" path="res://2d_wave_test.gdshader" id="4_1q0ra"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4h5fk"]
+albedo_texture = ExtResource("2_t4uwq")
+
+[sub_resource type="QuadMesh" id="QuadMesh_p5p6c"]
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4t8ph"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 2
+alpha_antialiasing_edge = 0.3
+cull_mode = 2
+depth_draw_mode = 1
+albedo_texture = ExtResource("2_7no2k")
+albedo_texture_force_srgb = true
+grow_amount = 3.429
+
+[sub_resource type="QuadMesh" id="QuadMesh_kxcvk"]
+lightmap_size_hint = Vector2i(7, 7)
+add_uv2 = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3s14k"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_367y2"]
+render_priority = 0
+shader = ExtResource("2_gme0s")
+shader_parameter/vertex_positions = PackedVector3Array(-0.202162, 0.310039, -2.62189, 1.10893, 0.310039, -4.1322, 0.891072, 1.68996, -1.67286, 2.20216, 1.68996, -3.18317)
+shader_parameter/blockerPositions = SubResource("ViewportTexture_3s14k")
+shader_parameter/objectTexture = ExtResource("2_t4uwq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oe0wx"]
+shader = ExtResource("4_1q0ra")
+shader_parameter/vertex_positions = PackedVector3Array(0.5, 1.5, -7.3311, 1.5, 1.5, -7.3311, 0.5, 0.5, -7.3311, 1.5, 0.5, -7.3311)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_le3yq")
+
+[node name="blocker" type="CSGMesh3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 1, 1, -7.3311)
+material_override = SubResource("StandardMaterial3D_4h5fk")
+cast_shadow = 2
+flip_faces = true
+mesh = SubResource("QuadMesh_p5p6c")
+material = SubResource("StandardMaterial3D_4t8ph")
+
+[node name="wall" type="CSGMesh3D" parent="."]
+transform = Transform3D(-1.31109, 1.09323, -1.04206, -1.26562e-07, 1.37992, 1.44769, 1.51031, 0.949029, -0.904601, 1, 1, -2.90253)
+cast_shadow = 2
+mesh = SubResource("QuadMesh_kxcvk")
+material = SubResource("ShaderMaterial_367y2")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+use_hdr_2d = true
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_oe0wx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.857697, 0, -0.514155, 0, 1, 0, 0.514155, 0, -0.857697, -0.781827, 1.43294, -10.9111)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.821756, 0.569839, 0, -0.569839, -0.821756, 0, 0, 0)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.598411, 0, 0, 0, 0.0308268, -9.29954, 2.67351, -14.9874)

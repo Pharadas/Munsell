@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://b01em77ny5jh1"]
+
+[ext_resource type="Script" path="res://lab.gd" id="1_xu5e5"]
+[ext_resource type="PackedScene" uid="uid://csw65i4qmxtox" path="res://BeamSplitter.tscn" id="2_lnmtd"]
+[ext_resource type="PackedScene" uid="uid://kvplei6wnbwv" path="res://Mirror.tscn" id="2_r0yvb"]
+[ext_resource type="PackedScene" uid="uid://cpr7eiod7ajgv" path="res://Laser.tscn" id="3_xr3l0"]
+[ext_resource type="PackedScene" uid="uid://b1nb4u5rbhv0w" path="res://SimulationWall.tscn" id="5_jor3c"]
+[ext_resource type="Script" path="res://free_look_camera.gd" id="6_ht5e6"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vjl4i"]
+
+[node name="Lab" type="Node3D"]
+script = ExtResource("1_xu5e5")
+
+[node name="BeamSplitter" parent="." instance=ExtResource("2_lnmtd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.143663, 1.14607, -3.87291)
+
+[node name="LaserSource" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17928, 3.69012)
+mesh = SubResource("BoxMesh_vjl4i")
+
+[node name="Laser" parent="." instance=ExtResource("3_xr3l0")]
+
+[node name="Mirror3" parent="." instance=ExtResource("2_r0yvb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0941973, 1.20871, -9.10215)
+
+[node name="Mirror4" parent="." instance=ExtResource("2_r0yvb")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.81577, 1.155, -3.714)
+
+[node name="SimulationWall" parent="." instance=ExtResource("5_jor3c")]
+transform = Transform3D(-4.37114e-06, 0, 100, 0, 100, 0, -100, 0, -4.37114e-06, -2.65985, 1.20068, -3.75436)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.434838, 0, 0.900509, 0, 1, 0, -0.900509, 0, 0.434838, 9.19879, 0, 0)
+spot_range = 37.2183
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("6_ht5e6")
